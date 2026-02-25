@@ -21,6 +21,12 @@ class OutputFormatter:
         self._budget = TokenBudget()
         self._max_tokens = token_budget
 
+    def format_full(self, state: PageState) -> tuple[str, int]:
+        """Format just the full state (ignoring any delta). Used for token-count fallback."""
+        text = self._format_full(state)
+        text, _ = self._budget.truncate(text, self._max_tokens)
+        return text, self._budget.count(text)
+
     def format(self, state: PageState, delta: Delta | None) -> tuple[str, int]:
         """
         Return (formatted_text, token_count).

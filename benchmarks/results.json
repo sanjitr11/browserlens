@@ -1,9 +1,9 @@
 {
-  "ran_at": "2026-02-25 19:37:25 UTC",
+  "ran_at": "2026-02-25 20:03:33 UTC",
   "grand_summary": {
     "total_raw_tokens": 4459,
-    "total_lens_tokens": 13179,
-    "overall_reduction_pct": -195.56
+    "total_lens_tokens": 7975,
+    "overall_reduction_pct": -78.85
   },
   "sites": [
     {
@@ -13,8 +13,8 @@
       "skip_reason": "",
       "totals": {
         "raw_tokens": 2439,
-        "lens_tokens": 4791,
-        "reduction_pct": -96.43
+        "lens_tokens": 2133,
+        "reduction_pct": 12.55
       },
       "steps": [
         {
@@ -24,9 +24,10 @@
           "raw_tokens": 702,
           "lens_tokens": 1256,
           "reduction_pct": -78.91737891737891,
-          "latency_ms": 18.75933399423957,
+          "latency_ms": 19.59554199129343,
           "is_delta": false,
           "representation": "distilled_dom",
+          "diff_discarded": false,
           "skipped": false,
           "skip_reason": ""
         },
@@ -37,9 +38,10 @@
           "raw_tokens": 704,
           "lens_tokens": 62,
           "reduction_pct": 91.19318181818181,
-          "latency_ms": 6.962375016883016,
+          "latency_ms": 8.837291970849037,
           "is_delta": true,
           "representation": "distilled_dom",
+          "diff_discarded": false,
           "skipped": false,
           "skip_reason": ""
         },
@@ -50,9 +52,10 @@
           "raw_tokens": 707,
           "lens_tokens": 63,
           "reduction_pct": 91.0891089108911,
-          "latency_ms": 6.732083973474801,
+          "latency_ms": 8.402708917856216,
           "is_delta": true,
           "representation": "distilled_dom",
+          "diff_discarded": false,
           "skipped": false,
           "skip_reason": ""
         },
@@ -61,11 +64,12 @@
           "label": "Click Login \u2192 success page",
           "url": "https://practicetestautomation.com/logged-in-successfully/",
           "raw_tokens": 326,
-          "lens_tokens": 3410,
-          "reduction_pct": -946.0122699386502,
-          "latency_ms": 12.596957967616618,
-          "is_delta": true,
+          "lens_tokens": 752,
+          "reduction_pct": -130.67484662576686,
+          "latency_ms": 7.313499925658107,
+          "is_delta": false,
           "representation": "distilled_dom",
+          "diff_discarded": true,
           "skipped": false,
           "skip_reason": ""
         }
@@ -78,8 +82,8 @@
       "skip_reason": "",
       "totals": {
         "raw_tokens": 1592,
-        "lens_tokens": 6550,
-        "reduction_pct": -311.43
+        "lens_tokens": 4862,
+        "reduction_pct": -205.4
       },
       "steps": [
         {
@@ -89,9 +93,10 @@
           "raw_tokens": 72,
           "lens_tokens": 515,
           "reduction_pct": -615.2777777777777,
-          "latency_ms": 16.042084083892405,
+          "latency_ms": 18.049375037662685,
           "is_delta": false,
           "representation": "a11y_tree",
+          "diff_discarded": false,
           "skipped": false,
           "skip_reason": ""
         },
@@ -102,9 +107,10 @@
           "raw_tokens": 75,
           "lens_tokens": 90,
           "reduction_pct": -19.999999999999996,
-          "latency_ms": 5.345250014215708,
+          "latency_ms": 8.67591705173254,
           "is_delta": true,
           "representation": "a11y_tree",
+          "diff_discarded": false,
           "skipped": false,
           "skip_reason": ""
         },
@@ -115,9 +121,10 @@
           "raw_tokens": 79,
           "lens_tokens": 151,
           "reduction_pct": -91.13924050632912,
-          "latency_ms": 5.8314589550718665,
+          "latency_ms": 8.386457921005785,
           "is_delta": true,
           "representation": "a11y_tree",
+          "diff_discarded": false,
           "skipped": false,
           "skip_reason": ""
         },
@@ -126,11 +133,12 @@
           "label": "Click Login \u2192 products page",
           "url": "https://www.saucedemo.com/inventory.html",
           "raw_tokens": 740,
-          "lens_tokens": 3671,
-          "reduction_pct": -396.0810810810811,
-          "latency_ms": 13.65204097237438,
-          "is_delta": true,
+          "lens_tokens": 2334,
+          "reduction_pct": -215.40540540540542,
+          "latency_ms": 14.26141697447747,
+          "is_delta": false,
           "representation": "a11y_tree",
+          "diff_discarded": true,
           "skipped": false,
           "skip_reason": ""
         },
@@ -139,11 +147,12 @@
           "label": "Click first product",
           "url": "https://www.saucedemo.com/inventory-item.html?id=4",
           "raw_tokens": 204,
-          "lens_tokens": 1402,
-          "reduction_pct": -587.2549019607843,
-          "latency_ms": 10.416791890747845,
-          "is_delta": true,
+          "lens_tokens": 718,
+          "reduction_pct": -251.96078431372547,
+          "latency_ms": 10.681457933969796,
+          "is_delta": false,
           "representation": "a11y_tree",
+          "diff_discarded": true,
           "skipped": false,
           "skip_reason": ""
         },
@@ -154,9 +163,10 @@
           "raw_tokens": 204,
           "lens_tokens": 206,
           "reduction_pct": -0.9803921568627416,
-          "latency_ms": 6.661374936811626,
+          "latency_ms": 11.200167005881667,
           "is_delta": true,
           "representation": "a11y_tree",
+          "diff_discarded": false,
           "skipped": false,
           "skip_reason": ""
         },
@@ -165,11 +175,12 @@
           "label": "Click cart icon \u2192 cart page",
           "url": "https://www.saucedemo.com/cart.html",
           "raw_tokens": 218,
-          "lens_tokens": 515,
-          "reduction_pct": -136.23853211009177,
-          "latency_ms": 8.21495905984193,
-          "is_delta": true,
+          "lens_tokens": 848,
+          "reduction_pct": -288.9908256880734,
+          "latency_ms": 8.575291954912245,
+          "is_delta": false,
           "representation": "a11y_tree",
+          "diff_discarded": true,
           "skipped": false,
           "skip_reason": ""
         }
@@ -182,8 +193,8 @@
       "skip_reason": "",
       "totals": {
         "raw_tokens": 428,
-        "lens_tokens": 1838,
-        "reduction_pct": -329.44
+        "lens_tokens": 980,
+        "reduction_pct": -128.97
       },
       "steps": [
         {
@@ -193,9 +204,10 @@
           "raw_tokens": 104,
           "lens_tokens": 297,
           "reduction_pct": -185.5769230769231,
-          "latency_ms": 8.243875112384558,
+          "latency_ms": 12.073250021785498,
           "is_delta": false,
           "representation": "distilled_dom",
+          "diff_discarded": false,
           "skipped": false,
           "skip_reason": ""
         },
@@ -204,11 +216,12 @@
           "label": "Click Start (loading begins)",
           "url": "https://the-internet.herokuapp.com/dynamic_loading/1",
           "raw_tokens": 107,
-          "lens_tokens": 757,
-          "reduction_pct": -607.4766355140187,
-          "latency_ms": 15.304125030525029,
+          "lens_tokens": 314,
+          "reduction_pct": -193.45794392523365,
+          "latency_ms": 4.1842079954221845,
           "is_delta": true,
           "representation": "distilled_dom",
+          "diff_discarded": true,
           "skipped": false,
           "skip_reason": ""
         },
@@ -219,9 +232,10 @@
           "raw_tokens": 107,
           "lens_tokens": 59,
           "reduction_pct": 44.859813084112155,
-          "latency_ms": 3.3409580355510116,
+          "latency_ms": 4.159458912909031,
           "is_delta": true,
           "representation": "distilled_dom",
+          "diff_discarded": false,
           "skipped": false,
           "skip_reason": ""
         },
@@ -230,11 +244,12 @@
           "label": "Loading complete \u2014 result visible",
           "url": "https://the-internet.herokuapp.com/dynamic_loading/1",
           "raw_tokens": 110,
-          "lens_tokens": 725,
-          "reduction_pct": -559.0909090909091,
-          "latency_ms": 4.924790933728218,
+          "lens_tokens": 310,
+          "reduction_pct": -181.81818181818184,
+          "latency_ms": 8.228457998484373,
           "is_delta": true,
           "representation": "distilled_dom",
+          "diff_discarded": true,
           "skipped": false,
           "skip_reason": ""
         }

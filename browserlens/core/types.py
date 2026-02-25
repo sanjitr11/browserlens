@@ -139,3 +139,4 @@ class ObservationResult:
     page_state: PageState
     token_count: int  # tokens in formatted_text
     latency_ms: float  # wall-clock ms for the full observe() call
+    diff_discarded: bool = False  # True when delta was discarded (URL change or delta > full state)

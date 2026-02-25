@@ -302,19 +302,22 @@ async def test_login_form_router_and_diff(page: Page) -> None:
 
     print(f"\n  Token counts — step 3 (post-login page: {result_3.url}):")
     _token_row("Raw Playwright a11y snapshot (baseline)", raw_3)
-    _token_row("BrowserLens delta", result_3.token_count, baseline=raw_3)
+    _token_row("BrowserLens full state (navigation detected)", result_3.token_count, baseline=raw_3)
     print(f"  Latency: {result_3.latency_ms:.0f} ms")
+    print(f"  diff_discarded: {result_3.diff_discarded}")
     _print_delta_summary("Delta", result_3.delta)
 
-    # Still a delta — BrowserLens never re-sends the full page after step 1
-    assert not result_3.delta.is_full_state, "Step 3 must be a delta"
-
-    # The login succeeded — there should be substantial changes (form gone, success content appeared)
-    assert result_3.delta.total_changes > 0, "Expected changes after navigating to post-login page"
+    # URL changed after login → BrowserLens detects navigation and returns full state
+    assert result_3.delta.is_full_state, (
+        "Step 3 must be a full state: URL changed after login, so diffing is skipped"
+    )
+    assert result_3.diff_discarded, (
+        "diff_discarded must be True when URL change triggers full-state fallback"
+    )
 
     print(f"\n  PASS — router={result_1.representation_type.value}, "
           f"step2_delta_savings={100*(1-result_2.token_count/max(raw_2,1)):.0f}%, "
-          f"step3_delta_savings={100*(1-result_3.token_count/max(raw_3,1)):.0f}%")
+          f"step3=full_state(nav_detected)")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -409,34 +412,22 @@ async def test_amazon_search_token_reduction(page: Page) -> None:
 
     print(f"\n  Token counts — step 2 (search results: 'laptop'):")
     _token_row("Raw Playwright a11y snapshot (baseline)", raw_2)
-    _token_row("BrowserLens full state (hypothetical)", result_1.token_count, baseline=raw_2)
-    _token_row("BrowserLens delta (actual)", result_2.token_count, baseline=raw_2)
+    _token_row("BrowserLens full state (navigation detected)", result_2.token_count, baseline=raw_2)
     print(f"  Latency: {result_2.latency_ms:.0f} ms")
+    print(f"  diff_discarded: {result_2.diff_discarded}")
     _print_delta_summary("Delta", result_2.delta)
 
-    # The key assertion: delta must not be a full page resend
-    assert not result_2.delta.is_full_state, (
-        "Step 2 should produce a delta — BrowserLens should not re-send the entire page"
+    # URL changed after pressing Enter (homepage URL → search results URL).
+    # BrowserLens detects the navigation and returns the full state instead of a noisy delta.
+    assert result_2.delta.is_full_state, (
+        "Step 2 must be a full state: URL changed after search navigation, diffing is skipped"
     )
-
-    # Delta must be smaller than raw snapshot
-    assert result_2.token_count < raw_2, (
-        f"BrowserLens delta ({result_2.token_count} tk) should be smaller than "
-        f"the raw a11y snapshot ({raw_2} tk) on the same page"
-    )
-
-    reduction_pct = (1 - result_2.token_count / max(raw_2, 1)) * 100
-    print(f"\n  Token reduction on step 2: {reduction_pct:.1f}%  "
-          f"({raw_2} → {result_2.token_count} tokens)")
-
-    # On a large page like Amazon results, expect a meaningful reduction
-    assert reduction_pct > 20, (
-        f"Expected >20% token reduction from diffing on Amazon results, got {reduction_pct:.1f}%. "
-        f"Raw={raw_2}, delta={result_2.token_count}"
+    assert result_2.diff_discarded, (
+        "diff_discarded must be True when a URL change triggers full-state fallback"
     )
 
     print(f"\n  PASS — router={result_1.representation_type.value}, "
-          f"token_reduction={reduction_pct:.0f}%")
+          f"step2=full_state(nav_detected, url_changed)")
 
 
 # ─────────────────────────────────────────────────────────────────────────────

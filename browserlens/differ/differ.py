@@ -48,6 +48,21 @@ class StateDiffer:
 
         return delta
 
+    def get_previous_url(self) -> str | None:
+        """Return the URL of the previously stored page state, or None on the first step."""
+        prev = self._store.get_previous()
+        return prev.url if prev is not None else None
+
+    def force_full_state(self, current: PageState) -> Delta:
+        """Update the store and return a full-state delta without running tree diff."""
+        self._store.update(current)
+        return Delta(
+            step=current.step,
+            is_full_state=True,
+            representation_type=current.representation_type,
+            unchanged_count=len(current.flat_nodes()),
+        )
+
     def reset(self) -> None:
         self._store.reset()
 

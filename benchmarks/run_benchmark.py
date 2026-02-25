@@ -54,8 +54,9 @@ class StepResult:
     lens_tokens: int        # BrowserLens output token count
     reduction_pct: float    # (1 - lens/raw) * 100  — positive = savings
     latency_ms: float       # lens.observe() wall-clock time
-    is_delta: bool          # False on step 1, True after
+    is_delta: bool          # False on step 1 or when full-state fallback fires
     representation: str     # a11y_tree / distilled_dom / hybrid / vision
+    diff_discarded: bool = False  # True when delta was discarded (URL change or delta > full state)
     skipped: bool = False
     skip_reason: str = ""
 
@@ -125,7 +126,12 @@ async def _observe_step(
     result = await lens.observe(page)
 
     reduction = (1 - result.token_count / max(raw, 1)) * 100
-    is_delta = result.delta is not None and not result.delta.is_full_state
+    # is_delta=False when diff was discarded (URL change or token fallback) even if delta exists
+    is_delta = (
+        result.delta is not None
+        and not result.delta.is_full_state
+        and not result.diff_discarded
+    )
 
     return StepResult(
         step_num=step_num,
@@ -137,6 +143,7 @@ async def _observe_step(
         latency_ms=result.latency_ms,
         is_delta=is_delta,
         representation=result.representation_type.value,
+        diff_discarded=result.diff_discarded,
     )
 
 
@@ -406,7 +413,12 @@ def _step_row(s: StepResult) -> str:
     # Colour-code reduction:  positive = savings (good), negative = overhead
     pct = s.reduction_pct
     pct_str = f"{pct:+.1f}%"
-    mode = "delta" if s.is_delta else "full"
+    if s.is_delta:
+        mode = "delta"
+    elif s.diff_discarded:
+        mode = "full*"   # full state chosen because URL changed or delta > full state
+    else:
+        mode = "full"
     label = s.label[:_COL_WIDTHS["label"]]
 
     return (

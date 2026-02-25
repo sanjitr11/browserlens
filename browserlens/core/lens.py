@@ -81,14 +81,30 @@ class BrowserLens:
         page_state = await extractor.extract(page)
         page_state.step = self._step
 
+        diff_discarded = False
+
         # Layer 2: diff against previous state
         if self.enable_diffing:
-            delta = self._differ.diff(page_state)
+            prev_url = self._differ.get_previous_url()
+            if prev_url is not None and prev_url != page_state.url:
+                # URL changed — navigation event; skip tree diff and return full state
+                delta = self._differ.force_full_state(page_state)
+                diff_discarded = True
+            else:
+                delta = self._differ.diff(page_state)
         else:
             delta = None
 
         # Format for LLM
         formatted_text, token_count = self._formatter.format(page_state, delta)
+
+        # Token-count fallback: if the delta is larger than the full state, discard it
+        if delta is not None and not delta.is_full_state:
+            full_text, full_tokens = self._formatter.format_full(page_state)
+            if token_count > full_tokens:
+                formatted_text = full_text
+                token_count = full_tokens
+                diff_discarded = True
 
         latency_ms = (time.monotonic() - t0) * 1000
 
@@ -101,6 +117,7 @@ class BrowserLens:
             page_state=page_state,
             token_count=token_count,
             latency_ms=latency_ms,
+            diff_discarded=diff_discarded,
         )
 
     def reset(self) -> None:
