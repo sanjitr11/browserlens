@@ -1,0 +1,244 @@
+{
+  "ran_at": "2026-02-25 19:37:25 UTC",
+  "grand_summary": {
+    "total_raw_tokens": 4459,
+    "total_lens_tokens": 13179,
+    "overall_reduction_pct": -195.56
+  },
+  "sites": [
+    {
+      "site_name": "Practice Test Automation \u2014 Login",
+      "url": "https://practicetestautomation.com/practice-test-login/",
+      "skipped": false,
+      "skip_reason": "",
+      "totals": {
+        "raw_tokens": 2439,
+        "lens_tokens": 4791,
+        "reduction_pct": -96.43
+      },
+      "steps": [
+        {
+          "step_num": 1,
+          "label": "Navigate to login page",
+          "url": "https://practicetestautomation.com/practice-test-login/",
+          "raw_tokens": 702,
+          "lens_tokens": 1256,
+          "reduction_pct": -78.91737891737891,
+          "latency_ms": 18.75933399423957,
+          "is_delta": false,
+          "representation": "distilled_dom",
+          "skipped": false,
+          "skip_reason": ""
+        },
+        {
+          "step_num": 2,
+          "label": "Fill username field",
+          "url": "https://practicetestautomation.com/practice-test-login/",
+          "raw_tokens": 704,
+          "lens_tokens": 62,
+          "reduction_pct": 91.19318181818181,
+          "latency_ms": 6.962375016883016,
+          "is_delta": true,
+          "representation": "distilled_dom",
+          "skipped": false,
+          "skip_reason": ""
+        },
+        {
+          "step_num": 3,
+          "label": "Fill password field",
+          "url": "https://practicetestautomation.com/practice-test-login/",
+          "raw_tokens": 707,
+          "lens_tokens": 63,
+          "reduction_pct": 91.0891089108911,
+          "latency_ms": 6.732083973474801,
+          "is_delta": true,
+          "representation": "distilled_dom",
+          "skipped": false,
+          "skip_reason": ""
+        },
+        {
+          "step_num": 4,
+          "label": "Click Login \u2192 success page",
+          "url": "https://practicetestautomation.com/logged-in-successfully/",
+          "raw_tokens": 326,
+          "lens_tokens": 3410,
+          "reduction_pct": -946.0122699386502,
+          "latency_ms": 12.596957967616618,
+          "is_delta": true,
+          "representation": "distilled_dom",
+          "skipped": false,
+          "skip_reason": ""
+        }
+      ]
+    },
+    {
+      "site_name": "Sauce Demo \u2014 Login \u2192 Product \u2192 Cart",
+      "url": "https://www.saucedemo.com/",
+      "skipped": false,
+      "skip_reason": "",
+      "totals": {
+        "raw_tokens": 1592,
+        "lens_tokens": 6550,
+        "reduction_pct": -311.43
+      },
+      "steps": [
+        {
+          "step_num": 1,
+          "label": "Navigate to Sauce Demo",
+          "url": "https://www.saucedemo.com/",
+          "raw_tokens": 72,
+          "lens_tokens": 515,
+          "reduction_pct": -615.2777777777777,
+          "latency_ms": 16.042084083892405,
+          "is_delta": false,
+          "representation": "a11y_tree",
+          "skipped": false,
+          "skip_reason": ""
+        },
+        {
+          "step_num": 2,
+          "label": "Fill username",
+          "url": "https://www.saucedemo.com/",
+          "raw_tokens": 75,
+          "lens_tokens": 90,
+          "reduction_pct": -19.999999999999996,
+          "latency_ms": 5.345250014215708,
+          "is_delta": true,
+          "representation": "a11y_tree",
+          "skipped": false,
+          "skip_reason": ""
+        },
+        {
+          "step_num": 3,
+          "label": "Fill password",
+          "url": "https://www.saucedemo.com/",
+          "raw_tokens": 79,
+          "lens_tokens": 151,
+          "reduction_pct": -91.13924050632912,
+          "latency_ms": 5.8314589550718665,
+          "is_delta": true,
+          "representation": "a11y_tree",
+          "skipped": false,
+          "skip_reason": ""
+        },
+        {
+          "step_num": 4,
+          "label": "Click Login \u2192 products page",
+          "url": "https://www.saucedemo.com/inventory.html",
+          "raw_tokens": 740,
+          "lens_tokens": 3671,
+          "reduction_pct": -396.0810810810811,
+          "latency_ms": 13.65204097237438,
+          "is_delta": true,
+          "representation": "a11y_tree",
+          "skipped": false,
+          "skip_reason": ""
+        },
+        {
+          "step_num": 5,
+          "label": "Click first product",
+          "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+          "raw_tokens": 204,
+          "lens_tokens": 1402,
+          "reduction_pct": -587.2549019607843,
+          "latency_ms": 10.416791890747845,
+          "is_delta": true,
+          "representation": "a11y_tree",
+          "skipped": false,
+          "skip_reason": ""
+        },
+        {
+          "step_num": 6,
+          "label": "Click Add to Cart",
+          "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+          "raw_tokens": 204,
+          "lens_tokens": 206,
+          "reduction_pct": -0.9803921568627416,
+          "latency_ms": 6.661374936811626,
+          "is_delta": true,
+          "representation": "a11y_tree",
+          "skipped": false,
+          "skip_reason": ""
+        },
+        {
+          "step_num": 7,
+          "label": "Click cart icon \u2192 cart page",
+          "url": "https://www.saucedemo.com/cart.html",
+          "raw_tokens": 218,
+          "lens_tokens": 515,
+          "reduction_pct": -136.23853211009177,
+          "latency_ms": 8.21495905984193,
+          "is_delta": true,
+          "representation": "a11y_tree",
+          "skipped": false,
+          "skip_reason": ""
+        }
+      ]
+    },
+    {
+      "site_name": "The Internet \u2014 Dynamic Loading",
+      "url": "https://the-internet.herokuapp.com/dynamic_loading/1",
+      "skipped": false,
+      "skip_reason": "",
+      "totals": {
+        "raw_tokens": 428,
+        "lens_tokens": 1838,
+        "reduction_pct": -329.44
+      },
+      "steps": [
+        {
+          "step_num": 1,
+          "label": "Navigate to dynamic loading page",
+          "url": "https://the-internet.herokuapp.com/dynamic_loading/1",
+          "raw_tokens": 104,
+          "lens_tokens": 297,
+          "reduction_pct": -185.5769230769231,
+          "latency_ms": 8.243875112384558,
+          "is_delta": false,
+          "representation": "distilled_dom",
+          "skipped": false,
+          "skip_reason": ""
+        },
+        {
+          "step_num": 2,
+          "label": "Click Start (loading begins)",
+          "url": "https://the-internet.herokuapp.com/dynamic_loading/1",
+          "raw_tokens": 107,
+          "lens_tokens": 757,
+          "reduction_pct": -607.4766355140187,
+          "latency_ms": 15.304125030525029,
+          "is_delta": true,
+          "representation": "distilled_dom",
+          "skipped": false,
+          "skip_reason": ""
+        },
+        {
+          "step_num": 3,
+          "label": "Loading spinner visible",
+          "url": "https://the-internet.herokuapp.com/dynamic_loading/1",
+          "raw_tokens": 107,
+          "lens_tokens": 59,
+          "reduction_pct": 44.859813084112155,
+          "latency_ms": 3.3409580355510116,
+          "is_delta": true,
+          "representation": "distilled_dom",
+          "skipped": false,
+          "skip_reason": ""
+        },
+        {
+          "step_num": 4,
+          "label": "Loading complete \u2014 result visible",
+          "url": "https://the-internet.herokuapp.com/dynamic_loading/1",
+          "raw_tokens": 110,
+          "lens_tokens": 725,
+          "reduction_pct": -559.0909090909091,
+          "latency_ms": 4.924790933728218,
+          "is_delta": true,
+          "representation": "distilled_dom",
+          "skipped": false,
+          "skip_reason": ""
+        }
+      ]
+    }
+  ]
+}
