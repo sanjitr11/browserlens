@@ -6,7 +6,8 @@ import base64
 
 from playwright.async_api import Page
 
-from browserlens.core.types import PageState, RepresentationType, StateNode
+from browserlens.core.types import PageState, RepresentationType
+from browserlens.extractors._cdp import extract_ax_tree
 from browserlens.extractors.base import BaseExtractor
 from browserlens.formatter.ref_manager import RefManager
 
@@ -27,7 +28,6 @@ class VisionExtractor(BaseExtractor):
         return RepresentationType.VISION
 
     async def extract(self, page: Page) -> PageState:
-        # Take screenshot
         screenshot_bytes = await page.screenshot(
             type="jpeg",
             quality=75,
@@ -35,9 +35,8 @@ class VisionExtractor(BaseExtractor):
         )
         screenshot_b64 = base64.b64encode(screenshot_bytes).decode("utf-8")
 
-        # Still build a minimal skeleton from the a11y tree so diffing has something to work with
-        snapshot = await page.accessibility.snapshot(interesting_only=True)
-        root = self._convert_node(snapshot or {})
+        # Skeletal a11y tree so diffing has something to work with
+        root = await extract_ax_tree(page, self._refs)
 
         return PageState(
             url=page.url,
@@ -46,22 +45,3 @@ class VisionExtractor(BaseExtractor):
             root=root,
             screenshot_b64=screenshot_b64,
         )
-
-    def _convert_node(self, raw: dict, parent_role: str = "") -> StateNode:
-        role = raw.get("role", "generic")
-        name = raw.get("name", "")
-        fingerprint = (role, name, parent_role)
-        ref = self._refs.get_or_create(fingerprint)
-
-        node = StateNode(
-            ref=ref,
-            role=role,
-            name=name,
-            value=raw.get("value", "") or "",
-            checked=raw.get("checked"),
-            expanded=raw.get("expanded"),
-            disabled=raw.get("disabled", False),
-        )
-        for child_raw in raw.get("children", []):
-            node.children.append(self._convert_node(child_raw, parent_role=role))
-        return node

@@ -6,7 +6,8 @@ import base64
 
 from playwright.async_api import Page
 
-from browserlens.core.types import PageState, RepresentationType, StateNode
+from browserlens.core.types import PageState, RepresentationType
+from browserlens.extractors._cdp import extract_ax_tree
 from browserlens.extractors.base import BaseExtractor
 from browserlens.formatter.ref_manager import RefManager
 
@@ -26,11 +27,7 @@ class HybridExtractor(BaseExtractor):
         return RepresentationType.HYBRID
 
     async def extract(self, page: Page) -> PageState:
-        # Full a11y tree
-        snapshot = await page.accessibility.snapshot(interesting_only=True)
-        root = self._convert_node(snapshot or {})
-
-        # Screenshot only for canvas / WebGL bounding boxes
+        root = await extract_ax_tree(page, self._refs)
         screenshot_b64 = await self._capture_visual_regions(page)
 
         return PageState(
@@ -82,24 +79,3 @@ class HybridExtractor(BaseExtractor):
         # Multiple canvases or clip failed → full viewport
         screenshot_bytes = await page.screenshot(type="jpeg", quality=75)
         return base64.b64encode(screenshot_bytes).decode("utf-8")
-
-    def _convert_node(self, raw: dict, parent_role: str = "") -> StateNode:
-        role = raw.get("role", "generic")
-        name = raw.get("name", "")
-        fingerprint = (role, name, parent_role)
-        ref = self._refs.get_or_create(fingerprint)
-
-        node = StateNode(
-            ref=ref,
-            role=role,
-            name=name,
-            value=raw.get("value", "") or "",
-            checked=raw.get("checked"),
-            expanded=raw.get("expanded"),
-            disabled=raw.get("disabled", False),
-            focused=raw.get("focused", False),
-            live=raw.get("live", ""),
-        )
-        for child_raw in raw.get("children", []):
-            node.children.append(self._convert_node(child_raw, parent_role=role))
-        return node

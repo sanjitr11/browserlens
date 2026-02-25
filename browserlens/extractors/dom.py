@@ -59,8 +59,15 @@ _DOM_EXTRACTION_JS = """() => {
     }
 
     function getName(el) {
+        // Follow <label for="id"> associations so inputs get their label text
+        if (el.id) {
+            const lbl = document.querySelector('label[for="' + el.id + '"]');
+            if (lbl) return lbl.innerText.trim().slice(0, 80);
+        }
         return (
             el.getAttribute('aria-label') ||
+            el.getAttribute('aria-labelledby') &&
+                document.getElementById(el.getAttribute('aria-labelledby'))?.innerText?.trim() ||
             el.getAttribute('title') ||
             el.getAttribute('placeholder') ||
             el.getAttribute('alt') ||

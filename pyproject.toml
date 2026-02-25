@@ -24,6 +24,10 @@ dev = [
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+addopts = "-m 'not integration'"
+markers = [
+    "integration: live browser tests requiring a network connection (run with -m integration)",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["browserlens"]
