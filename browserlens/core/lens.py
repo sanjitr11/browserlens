@@ -7,6 +7,18 @@ from typing import Callable
 
 from playwright.async_api import Page
 
+from browserlens.compiler.cache import WorkflowCache
+from browserlens.compiler.compiler import WorkflowCompiler
+from browserlens.compiler.executor import WorkflowExecutor
+from browserlens.compiler.healer import WorkflowHealer
+from browserlens.compiler.recorder import ActionRecorder
+from browserlens.compiler.types import (
+    ActionType,
+    CompiledWorkflow,
+    ExecutionResult,
+    ParameterSlot,
+    WorkflowTrace,
+)
 from browserlens.core.types import ObservationResult, RepresentationType
 from browserlens.differ.differ import StateDiffer
 from browserlens.extractors.a11y import A11yExtractor
@@ -37,6 +49,7 @@ class BrowserLens:
         enable_routing: bool = True,
         force_representation: RepresentationType | None = None,
         router_override: Callable | None = None,
+        cache_dir: str | None = None,
     ) -> None:
         self.token_budget = token_budget
         self.enable_diffing = enable_diffing
@@ -57,6 +70,13 @@ class BrowserLens:
             RepresentationType.VISION: VisionExtractor(self._ref_manager),
             RepresentationType.HYBRID: HybridExtractor(self._ref_manager),
         }
+
+        # Layer 3 — Workflow Compiler components
+        self._recorder = ActionRecorder()
+        self._compiler = WorkflowCompiler()
+        self._cache = WorkflowCache(cache_dir=cache_dir)
+        self._healer = WorkflowHealer(lens=self)
+        self._executor = WorkflowExecutor(cache=self._cache, healer=self._healer)
 
     async def observe(self, page: Page) -> ObservationResult:
         """
@@ -125,3 +145,73 @@ class BrowserLens:
         self._step = 0
         self._ref_manager.reset()
         self._differ.reset()
+
+    # ------------------------------------------------------------------
+    # Layer 3 — Workflow Compiler public API
+    # ------------------------------------------------------------------
+
+    def start_recording(self, task_description: str) -> None:
+        """Begin recording agent actions for later compilation."""
+        self._recorder.start(task_description)
+
+    async def record_action(
+        self,
+        action: ActionType,
+        page: Page,
+        *,
+        target_ref: str = "",
+        role: str = "",
+        name: str = "",
+        value: str | None = None,
+    ) -> None:
+        """
+        Record a single agent action.
+
+        Must be called while the element is still in the DOM.
+        """
+        await self._recorder.record(
+            action, page, ref=target_ref, role=role, name=name, value=value
+        )
+
+    def stop_recording(self, success: bool = True) -> WorkflowTrace:
+        """Stop recording and return the completed WorkflowTrace."""
+        return self._recorder.stop(success=success)
+
+    def compile_workflow(
+        self,
+        trace: WorkflowTrace,
+        parameters: list[ParameterSlot] | None = None,
+    ) -> CompiledWorkflow:
+        """
+        Compile a WorkflowTrace and save it to the cache.
+
+        Returns the CompiledWorkflow metadata.
+        """
+        metadata, script_source = self._compiler.compile(
+            trace, parameter_slots=parameters
+        )
+        return self._cache.save(metadata, script_source)
+
+    async def execute_workflow(
+        self,
+        task: str,
+        page: Page,
+        params: dict | None = None,
+        llm_caller=None,
+    ) -> ExecutionResult | None:
+        """
+        Look up a cached workflow by task description and execute it.
+
+        Returns None if no matching workflow is found (caller should fall
+        back to agent exploration).
+        """
+        cached = self._cache.lookup_by_task(task)
+        if cached is None:
+            return None
+        return await self._executor.execute(
+            cached.workflow_id, page, params=params, llm_caller=llm_caller
+        )
+
+    def export_workflow(self, workflow_id: str, path: str) -> str:
+        """Export a compiled workflow script to the given file path."""
+        return self._cache.export(workflow_id, path)

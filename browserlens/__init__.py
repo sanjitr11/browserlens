@@ -7,6 +7,17 @@ from browserlens.core.types import (
     RepresentationType,
     StateNode,
 )
+from browserlens.compiler.types import (
+    ActionType,
+    CompiledWorkflow,
+    ElementTarget,
+    ExecutionResult,
+    ParameterSlot,
+    SelectorStrategy,
+    StepResult,
+    TraceStep,
+    WorkflowTrace,
+)
 
 __all__ = [
     "BrowserLens",
@@ -16,4 +27,14 @@ __all__ = [
     "PageState",
     "RepresentationType",
     "StateNode",
+    # Layer 3
+    "ActionType",
+    "CompiledWorkflow",
+    "ElementTarget",
+    "ExecutionResult",
+    "ParameterSlot",
+    "SelectorStrategy",
+    "StepResult",
+    "TraceStep",
+    "WorkflowTrace",
 ]
